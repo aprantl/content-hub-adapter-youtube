@@ -9,4 +9,4 @@
 # The dependencies in the lockfile are considered runtime dependencies.
 # The actual version is determined by the studio-client application.
 exclude:
-  - "studio-client/**"
+  - "./studio-client/**"
