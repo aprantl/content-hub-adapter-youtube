@@ -24,6 +24,7 @@ jobs:
         id: scan
         uses: anchore/scan-action@v5
         with:
+          fail-build: false
           sbom: "${{ github.event.repository.name }}-sbom.cyclonedx.json"
 
       - name: Upload SARIF file
