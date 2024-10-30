@@ -18,3 +18,14 @@ jobs:
           path: .
           format: "cyclonedx-json"
           config: ".syft/config.yml"
+
+      - name: Scan SBOM with Grype
+        id: scan
+        uses: anchore/scan-action@v5
+        with:
+          sbom: "${{ github.event.repository.name }}-sbom.cyclonedx.json"
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.scan.outputs.sarif }}
