@@ -1,4 +1,4 @@
-name: createSBOM.yml
+name: create_and_scan_SBOM
 
 on:
   release:
@@ -30,3 +30,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
+          category: "syft_and_grype"
