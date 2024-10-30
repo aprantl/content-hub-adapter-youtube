@@ -16,6 +16,7 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           path: .
+          output-file: "${{ github.event.repository.name }}-sbom.cyclonedx.json"
           format: "cyclonedx-json"
           config: ".syft/config.yml"
 
