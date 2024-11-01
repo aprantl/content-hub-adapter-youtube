@@ -1,6 +1,9 @@
 name: create_and_scan_SBOM
 
 on:
+  push:
+    branches:
+      - main
   release:
     types: [created]
 
@@ -25,6 +28,8 @@ jobs:
         uses: anchore/scan-action@v5
         with:
           fail-build: false
+          by-cve: true
+          cache-db: true
           sbom: "${{ github.event.repository.name }}-sbom.cyclonedx.json"
 
       - name: Verify SARIF file
