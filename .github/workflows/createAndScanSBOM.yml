@@ -18,13 +18,7 @@ jobs:
           path: .
           output-file: "${{ github.event.repository.name }}-sbom.cyclonedx.json"
           format: "cyclonedx-json"
-          config: |
-            # For studio-client plugins you can skip the scanning process
-            # because they are not supposed to introduce new dependencies.
-            # The dependencies in the lockfile are considered runtime dependencies.
-            # The actual version is determined by the studio-client application.
-            exclude:
-              - "./studio-client/**"
+          config: ".syft/config.yml"
 
       - name: Scan SBOM with Grype
         id: scan
