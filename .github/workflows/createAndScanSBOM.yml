@@ -15,26 +15,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # The SBOM action generates and SBOM with the given format and automatically
+      # attaches it to the release, if it was triggered in the context of a release event.
       - name: Generate SBOM with Syft
         uses: anchore/sbom-action@v0
         with:
           path: .
           output-file: "${{ github.event.repository.name }}-sbom.cyclonedx.json"
           format: "cyclonedx-json"
-          config: ".syft/config.yml"
+          config: ".github/workflows/config/syft.yml" # config to exclude pnpm-lock.yaml
 
+      # Scans the SBOM for vulnerabilities with Grype
       - name: Scan SBOM with Grype
         id: scan
         uses: anchore/scan-action@v5
         with:
           fail-build: false
-          by-cve: true
-          cache-db: true
+          by-cve: true # Prefer using CVE ids over GHSA ids
+          cache-db: true # Minimize risk of hitting rate limits
           sbom: "${{ github.event.repository.name }}-sbom.cyclonedx.json"
 
-      - name: Verify SARIF file
-        run: cat ${{ steps.scan.outputs.sarif }}
-
+      # Upload the scan results to GitHub Security tab
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:

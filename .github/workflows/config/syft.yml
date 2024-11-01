@@ -1,0 +1,6 @@
+# For studio-client Olugins you can skip the scanning process
+# because Plugins are not supposed to introduce new dependencies.
+# The dependencies in the lockfile are considered provided dependencies.
+# The actual version is determined by the studio-client application.
+exclude:
+  - "./studio-client/**/pnpm-lock.yaml"
